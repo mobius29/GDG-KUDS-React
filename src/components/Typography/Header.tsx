@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import React from "react";
-import { css } from "@emotion/react";
+import { css, jsx } from "@emotion/react";
 import { GLOBAL_PREFIX } from "../../constants/prefix";
 import { classNames } from "../../utils";
 
@@ -13,17 +13,11 @@ export interface HeaderProps extends React.HTMLAttributes<HTMLHeadingElement> {
 const Header = ({ level, className, ...headingProps }: HeaderProps) => {
   className = classNames([`${GLOBAL_PREFIX}-header`, className]);
 
-  if (level === 1) {
-    return (
-      <h1 {...headingProps} className={className} css={HeaderStyle[level]} />
-    );
-  }
-
-  return React.createElement(HeadingLevels[level], {
+  return jsx(HeadingLevels[level], {
     ...headingProps,
-    className: `${GLOBAL_PREFIX}-header`,
+    className: className,
     css: HeaderStyle[level],
-  });
+  })
 };
 
 export default Header;
@@ -41,8 +35,20 @@ const HeaderStyle: { [key in Level]: ReturnType<typeof css> } = {
     fontSize: 56,
     lineHeight: "64px",
   }),
-  2: css(),
-  3: css(),
-  4: css(),
-  5: css(),
+  2: css({
+    fontSize: 40,
+    lineHeight: "52px",
+  }),
+  3: css({
+    fontSize: 32,
+    lineHeight: "44px",
+  }),
+  4: css({
+    fontSize: 24,
+    lineHeight: "34px",
+  }),
+  5: css({
+    fontSize: 20,
+    lineHeight: "28px",
+  }),
 };

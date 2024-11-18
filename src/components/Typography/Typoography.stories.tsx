@@ -1,16 +1,14 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Typography } from ".";
 
-const { Header } = Typography;
-
 const meta = {
   title: "Typography",
-  component: Header,
+  component: Typography,
   tags: ["autodocs"],
-  args: { level: 1, children: "asdfasdf" },
-} satisfies Meta<typeof Header>;
+  args: { level: 1, size: "medium", children: "Hello, this is a body." },
+} satisfies Meta<typeof Typography>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Header1: Story = {};
+export const Body1: Story = {};
