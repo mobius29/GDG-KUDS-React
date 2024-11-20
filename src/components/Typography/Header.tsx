@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
 import { css, jsx } from "@emotion/react";
 import { GLOBAL_PREFIX } from "../../constants/prefix";
 import { classNames } from "../../utils";
@@ -15,7 +14,7 @@ const Header = ({ level, className, ...headingProps }: HeaderProps) => {
 
   return jsx(HeadingLevels[level], {
     ...headingProps,
-    className: className,
+    className,
     css: HeaderStyle[level],
   })
 };

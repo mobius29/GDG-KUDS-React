@@ -4,7 +4,7 @@ import { Typography } from ".";
 const { Header } = Typography;
 
 const meta = {
-  title: "Typography",
+  title: "Header",
   component: Header,
   tags: ["autodocs"],
   args: { level: 1, children: "Hello, this is a header." },
