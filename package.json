@@ -14,6 +14,7 @@
     "build": "tsc && vite build",
     "storybook:build": "storybook build",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "format:fix": "prettier --write .",
     "test": "jest",
     "publish:check": "yarn publish --dry-run",
     "publish": "yarn build && yarn publish",
