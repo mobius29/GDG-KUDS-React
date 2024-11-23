@@ -1,8 +1,8 @@
-import { Meta, StoryObj } from "@storybook/react";
-import Input from "./Input";
+import { Meta, StoryObj } from '@storybook/react';
+import Input from './Input';
 
 const meta = {
-  title: "Input",
+  title: 'Input',
   component: Input,
 } satisfies Meta<typeof Input>;
 

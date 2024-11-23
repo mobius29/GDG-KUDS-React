@@ -4,11 +4,11 @@
  */
 const config = {
   semi: true,
-  arrowParens: "always",
+  arrowParens: 'always',
   bracketSameLine: true,
   bracketSpacing: true,
   singleQuote: true,
-  trailingComma: "all",
+  trailingComma: 'all',
   tabWidth: 2,
   useTabs: false,
   printWidth: 120,
