@@ -17,13 +17,42 @@ export const Primary: Story = {
     colorType: 'primary',
     size: 'large',
     shape: 'rect',
+    disabled: false,
   },
 };
 
-export const Secondary: Story = {
-  args: { className: 'zxcv' },
+export const Blue: Story = {
+  args: {
+    colorType: 'blue',
+    size: 'large',
+    shape: 'rect',
+    disabled: false,
+  },
 };
 
-export const Test: Story = {
-  args: { className: 'zxcv' },
+export const Green: Story = {
+  args: {
+    colorType: 'green',
+    size: 'medium',
+    shape: 'rect',
+    disabled: false,
+  },
+};
+
+export const Yellow: Story = {
+  args: {
+    colorType: 'yellow',
+    size: 'large',
+    shape: 'rect',
+    disabled: false,
+  },
+};
+
+export const Red: Story = {
+  args: {
+    colorType: 'red',
+    size: 'medium',
+    shape: 'rect',
+    disabled: false,
+  },
 };

@@ -20,6 +20,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 /**
  *?: css 파일은 컴포넌트 외부에 선언되는데, PREFIX가 붙은 class 선택자는 어떻게 가져올 수 있을까?
+ * => 전역변수 생성 후, getter 함수 작성해야할 듯. setter는 config에서만 할 수 있도록?
+ * => 이건 config 만들 때 같이 해야할 듯
  */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const {
@@ -79,6 +81,14 @@ const ButtonDefaultStyles = css({
     color: Colors.primary[100],
 
     cursor: 'not-allowed',
+    '&:hover': {
+      backgroundColor: Colors.primary[400],
+      color: Colors.primary[100],
+    },
+    '&:active': {
+      backgroundColor: Colors.primary[400],
+      color: Colors.primary[100],
+    },
   },
 });
 
@@ -89,51 +99,51 @@ const ButtonColorTypeStyles: { [key in ColorType]: ReturnType<typeof css> } = {
     '&:hover': {
       backgroundColor: Colors.primary[200],
       color: Colors.primary[800],
-    }, // hover style
+    },
     '&:active': {
       backgroundColor: Colors.primary[300],
       color: Colors.primary[800],
-    }, // click style
+    },
   }),
   blue: css({
     backgroundColor: Colors.blue[500],
     color: Colors.primary[100],
     '&:hover': {
       backgroundColor: Colors.blue[100],
-    }, // hover style
+    },
     '&:active': {
       backgroundColor: Colors.blue[300],
-    }, // click style
+    },
   }),
   green: css({
     backgroundColor: Colors.green[500],
     color: Colors.primary[100],
     '&:hover': {
       backgroundColor: Colors.green[100],
-    }, // hover style
+    },
     '&:active': {
       backgroundColor: Colors.green[300],
-    }, // click style
+    },
   }),
   yellow: css({
     backgroundColor: Colors.yellow[500],
     color: Colors.primary[100],
     '&:hover': {
       backgroundColor: Colors.yellow[100],
-    }, // hover style
+    },
     '&:active': {
       backgroundColor: Colors.yellow[300],
-    }, // click style
+    },
   }),
   red: css({
     backgroundColor: Colors.red[500],
     color: Colors.primary[100],
     '&:hover': {
       backgroundColor: Colors.red[100],
-    }, // hover style
+    },
     '&:active': {
       backgroundColor: Colors.red[300],
-    }, // click style
+    },
   }),
 };
 
