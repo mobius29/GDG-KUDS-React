@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 export const classNames = (...values: unknown[]): string => {
   return values
     .filter((value) => !!value) // falsey 제거
