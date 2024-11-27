@@ -16,7 +16,7 @@ export const Primary: Story = {
   args: {
     colorType: 'primary',
     size: 'large',
-    shape: 'rect',
+    shape: 'round',
     disabled: false,
   },
 };
@@ -25,7 +25,7 @@ export const Blue: Story = {
   args: {
     colorType: 'blue',
     size: 'large',
-    shape: 'rect',
+    shape: 'round',
     disabled: false,
   },
 };
@@ -34,7 +34,7 @@ export const Green: Story = {
   args: {
     colorType: 'green',
     size: 'medium',
-    shape: 'rect',
+    shape: 'round',
     disabled: false,
   },
 };
@@ -43,7 +43,7 @@ export const Yellow: Story = {
   args: {
     colorType: 'yellow',
     size: 'large',
-    shape: 'rect',
+    shape: 'round',
     disabled: false,
   },
 };
@@ -52,7 +52,7 @@ export const Red: Story = {
   args: {
     colorType: 'red',
     size: 'medium',
-    shape: 'rect',
+    shape: 'round',
     disabled: false,
   },
 };

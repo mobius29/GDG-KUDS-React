@@ -8,7 +8,7 @@ import { Colors } from '../../constants/colors';
 
 type ColorType = 'primary' | 'blue' | 'green' | 'yellow' | 'red';
 type Size = 'medium' | 'large';
-type Shape = 'circle' | 'rect';
+type Shape = 'circle' | 'round'; // TODO: circle 스타일
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   colorType?: ColorType;
@@ -27,7 +27,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
   const {
     colorType = 'primary',
     size = 'medium',
-    shape = 'rect',
+    shape = 'round',
     disabled,
     loading,
     icon,
