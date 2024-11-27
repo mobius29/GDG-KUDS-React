@@ -28,15 +28,18 @@ const parseCls = (cls: unknown, prefix?: string): string => {
   return '';
 };
 
-export const generateClasses = (prefix?: string) => (suffixes: unknown[], cls?: string) => {
-  const mergedClasses = suffixes
-    .map((suffix) => parseCls(suffix, prefix))
-    .filter(filterCls)
-    .join(' ');
+export const generateClasses =
+  (prefix?: string) =>
+  (suffixes: unknown[], ...cls: (string | undefined)[]) => {
+    const mergedClasses = suffixes
+      .filter(filterCls)
+      .map((suffix) => parseCls(suffix, prefix))
+      .join(' ');
 
-  if (cls) {
-    return `${mergedClasses} ${cls}`;
-  }
+    if (cls) {
+      const classes = cls.filter(filterCls).join(' ');
+      return `${mergedClasses} ${classes}`;
+    }
 
-  return mergedClasses;
-};
+    return mergedClasses;
+  };

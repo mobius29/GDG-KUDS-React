@@ -13,7 +13,11 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
-  args: { className: 'asdf' },
+  args: {
+    colorType: 'primary',
+    size: 'large',
+    shape: 'rect',
+  },
 };
 
 export const Secondary: Story = {
