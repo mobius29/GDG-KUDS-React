@@ -44,6 +44,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         [inputType, customSize, label === '' ? '' : 'label', helpText === '' ? '' : 'help-text'],
         className,
       )}>
+      {/*class=gdg-kuds-input-primary gdg-kuds-input-small으로 붙는데 의도된 것인가 */}
       {label && <label css={InputLabelStyles}>{label}</label>}
       <div>
         <input
@@ -78,13 +79,13 @@ const InputLabelStyles = css({
   fontSize: '12px',
   fontWeight: 500,
   color: Colors.primary[800],
-  marginBottom: '2px',
+  marginBottom: '2px', //피그마 기반 수정
 });
 
 const InputHelpTextSyles = css({
   fontSize: '10px',
   fontWeight: 300,
-  marginTop: '5px', //디자인 기반 수정
+  marginTop: '5px', //피그마 기반 수정
 });
 
 const InputDefaultStyles = css({
@@ -125,6 +126,7 @@ const InputSizeStyles: { [key in Size]: ReturnType<typeof css> } = {
   }),
 };
 
+// Serve Type으로 제시된 부분을 Status로 관리
 const InputStatusStyles: { [key in Status]: ReturnType<typeof css> } = {
   default: css({
     borderColor: Colors.primary[500],
