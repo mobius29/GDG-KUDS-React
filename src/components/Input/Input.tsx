@@ -17,8 +17,8 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
   label?: string;
   helpText?: string;
   placeholder?: string;
-  icon?: React.ReactNode;
   status?: Status;
+  icon?: React.ReactNode;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
@@ -30,8 +30,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
     placeholder = '',
     status = 'default',
     disabled,
-    icon,
     className,
+    icon,
     ...inputProps
   } = props;
   const INPUT_PREFIX = `${GLOBAL_PREFIX}-input`;
@@ -55,9 +55,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
           disabled={disabled}
           {...inputProps}
         />
-        {icon && <span>{icon}</span>}
-        {status === 'success' && <span className={generateInputCls(['success'])}>{icon}</span>}
-        {status === 'error' && <span className={generateInputCls(['error'])}>{icon}</span>}
+        {icon && <span css={[InputIconStyles]}>{icon}</span>}
         {/* success icon, error icon 추가 */}
       </div>
 
@@ -94,6 +92,7 @@ const InputDefaultStyles = css({
 
   display: 'flex',
   alignItems: 'center',
+  position: 'relative',
 
   border: '1.2px solid',
   borderRadius: '8px',
@@ -150,3 +149,14 @@ const InputStatusHelpTextStyles: { [key in Status]: ReturnType<typeof css> } = {
     color: Colors.red[500],
   }),
 };
+
+const InputIconStyles = css({
+  position: 'absolute',
+  right: '10px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  pointerEvents: 'none',
+});
