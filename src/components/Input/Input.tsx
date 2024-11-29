@@ -101,6 +101,7 @@ const InputDefaultStyles = css({
 
   border: '1.2px solid',
   borderRadius: 8,
+  borderColor: Colors.primary[500],
   backgroundColor: Colors.primary[100],
 
   cursor: 'text',
