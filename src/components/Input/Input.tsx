@@ -7,15 +7,18 @@ import { GLOBAL_PREFIX } from '../../constants/prefix';
 import { forwardRef } from 'react';
 import { Colors } from '../../constants/colors';
 
-type InputType = 'primary' | 'password';
+type ColorType = 'primary';
+type InputType = 'text' | 'password';
 type Size = 'small' | 'medium';
 type Status = 'default' | 'success' | 'error';
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+type InputAttribute = React.InputHTMLAttributes<HTMLInputElement>;
+export interface InputProps extends Omit<InputAttribute, 'size'> {
+  colorType?: ColorType;
   inputType?: InputType;
-  customSize?: Size;
-  label?: string;
-  helpText?: string;
+  size?: Size;
+  label?: React.ReactNode;
+  helpText?: React.ReactNode;
   placeholder?: string;
   status?: Status;
   icon?: React.ReactNode;
@@ -23,13 +26,12 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
-    inputType = 'primary',
-    customSize = 'small',
-    label = '',
-    helpText = '',
-    placeholder = '',
+    colorType,
+    inputType = 'text',
+    size = 'small',
+    label,
+    helpText,
     status = 'default',
-    disabled,
     className,
     icon,
     ...inputProps
@@ -38,28 +40,29 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const generateInputCls = generateClasses(INPUT_PREFIX);
 
   return (
-    <div
-      css={ContainerStyles}
-      className={generateInputCls(
-        [inputType, customSize, label === '' ? '' : 'label', helpText === '' ? '' : 'help-text'],
-        className,
-      )}>
+    <div css={ContainerStyles} className={generateInputCls([colorType, inputType, size], className)}>
       {/*class=gdg-kuds-input-primary gdg-kuds-input-small으로 붙는데 의도된 것인가 */}
-      {label && <label css={InputLabelStyles}>{label}</label>}
-      <div>
+      {label && (
+        <label css={InputLabelStyles} className={generateInputCls([label])}>
+          {label}
+        </label>
+      )}
+      <div css={InputWrapperStyles}>
         <input
           ref={ref}
-          css={[InputDefaultStyles, InputSizeStyles[customSize], InputStatusStyles[status]]}
-          type={inputType === 'password' ? 'password' : 'primary'}
-          placeholder={placeholder}
-          disabled={disabled}
+          type={inputType}
+          css={[InputDefaultStyles, InputSizeStyles[size], InputStatusStyles[status]]}
           {...inputProps}
         />
         {icon && <span css={[InputIconStyles]}>{icon}</span>}
         {/* success icon, error icon 추가 */}
       </div>
 
-      {helpText && <p css={[InputHelpTextSyles, InputStatusHelpTextStyles[status]]}>{helpText}</p>}
+      {helpText && (
+        <p css={[InputHelpTextSyles, InputStatusHelpTextStyles[status]]} className={generateInputCls([helpText])}>
+          {helpText}
+        </p>
+      )}
     </div>
   );
 });
@@ -69,33 +72,36 @@ export default Input;
 const ContainerStyles = css({
   display: 'flex',
   flexDirection: 'column',
-  gap: '2px',
+  gap: 2,
   width: '100%',
 });
 
+const InputWrapperStyles = css({
+  position: 'relative',
+});
+
 const InputLabelStyles = css({
-  fontSize: '12px',
+  fontSize: 12,
   fontWeight: 500,
   color: Colors.primary[800],
-  marginBottom: '2px', //피그마 기반 수정
+  marginBottom: 2, //피그마 기반 수정
 });
 
 const InputHelpTextSyles = css({
-  fontSize: '10px',
+  fontSize: 10,
   fontWeight: 300,
-  marginTop: '5px', //피그마 기반 수정
+  marginTop: 5, //피그마 기반 수정
 });
 
 const InputDefaultStyles = css({
   padding: '10px 20px',
-  fontsize: '14px',
+  fontsize: 14,
 
-  display: 'flex',
+  display: 'inline-flex',
   alignItems: 'center',
-  position: 'relative',
 
   border: '1.2px solid',
-  borderRadius: '8px',
+  borderRadius: 8,
   backgroundColor: Colors.primary[100],
 
   cursor: 'text',
@@ -116,12 +122,12 @@ const InputDefaultStyles = css({
 
 const InputSizeStyles: { [key in Size]: ReturnType<typeof css> } = {
   small: css({
-    width: '200px',
-    height: '14px',
+    width: 200,
+    height: 14,
   }),
   medium: css({
-    width: '260px',
-    height: '24px',
+    width: 260,
+    height: 24,
   }),
 };
 
@@ -150,9 +156,11 @@ const InputStatusHelpTextStyles: { [key in Status]: ReturnType<typeof css> } = {
   }),
 };
 
+//icon scss로 수정 아이콘에 className을 만들어서 바로 적용
+//추후 icon 전체 업데이트
 const InputIconStyles = css({
   position: 'absolute',
-  right: '10px',
+  right: 10,
   top: '50%',
   transform: 'translateY(-50%)',
   display: 'flex',

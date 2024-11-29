@@ -14,10 +14,12 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    inputType: 'primary',
-    customSize: 'small',
+    colorType: 'primary',
+    inputType: 'text',
+    size: 'small',
     label: '',
     helpText: '',
+    status: 'default',
     disabled: false,
   },
 };
