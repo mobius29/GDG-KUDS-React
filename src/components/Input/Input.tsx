@@ -7,8 +7,8 @@ import { GLOBAL_PREFIX } from '../../constants/prefix';
 import { forwardRef } from 'react';
 import { Colors } from '../../constants/colors';
 
-type ColorType = 'primary';
-type InputType = 'text' | 'password';
+type ColorType = 'primary'; //colorType 별도 명시
+type InputType = 'text' | 'password'; //input 태그에 존재하나, 현재 text, password 외에는 추가된 것이 없어 그대로 가져가기로
 type Size = 'small' | 'medium';
 type Status = 'default' | 'success' | 'error';
 
@@ -41,7 +41,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
 
   return (
     <div css={ContainerStyles} className={generateInputCls([colorType, inputType, size], className)}>
-      {/*class=gdg-kuds-input-primary gdg-kuds-input-small으로 붙는데 의도된 것인가 */}
       {label && (
         <label css={InputLabelStyles} className={generateInputCls([label])}>
           {label}
@@ -78,7 +77,7 @@ const ContainerStyles = css({
 
 const InputWrapperStyles = css({
   position: 'relative',
-});
+}); // icon 적용 이후 수정 예정
 
 const InputLabelStyles = css({
   fontSize: 12,
@@ -117,7 +116,7 @@ const InputDefaultStyles = css({
     borderColor: Colors.primary[300],
 
     cursor: 'not-allowed',
-  }, //primary disabled
+  }, //input disabled
 });
 
 const InputSizeStyles: { [key in Size]: ReturnType<typeof css> } = {
