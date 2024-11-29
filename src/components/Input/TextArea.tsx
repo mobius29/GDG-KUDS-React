@@ -21,22 +21,63 @@ const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => 
   const generateTextAreaCls = generateClasses(INPUT_PREFIX);
 
   return (
-    <div className={generateTextAreaCls([size], className)}>
+    <div css={ContainerStyles} className={generateTextAreaCls([size], className)}>
       {label && (
-        <label css={InputLabelStyles} className={generateTextAreaCls([label])}>
+        <label css={TextAreaLabelStyles} className={generateTextAreaCls([label])}>
           {label}
         </label>
       )}
-      <textarea ref={ref} css={[]} {...textAreaProps}></textarea>
+      <textarea ref={ref} css={[TextAreaDefaultStyles, TextAreaSizeStyles[size]]} {...textAreaProps}></textarea>
     </div>
   );
 });
 
 export default TextArea;
 
-const InputLabelStyles = css({
-  fontSize: 12,
-  fontWeight: 500,
-  color: Colors.primary[800],
-  marginBottom: 2, //피그마 기반 수정
+const ContainerStyles = css({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 16,
+  width: '100%',
 });
+
+const TextAreaLabelStyles = css({
+  fontSize: 12,
+  fontWeight: 700,
+  color: Colors.primary[800],
+});
+
+const TextAreaDefaultStyles = css({
+  padding: '10px 20px',
+  fontsize: 14,
+
+  display: 'inline-flex',
+  alignItems: 'center',
+
+  border: '1.2px solid',
+  borderRadius: 8,
+  borderColor: Colors.primary[500],
+  backgroundColor: Colors.primary[100],
+
+  cursor: 'text',
+
+  '&:focus': {
+    outline: 'none',
+    color: Colors.primary[800],
+    borderColor: Colors.primary[800],
+  }, //textarea focus
+
+  '&:disabled': {
+    backgroundColor: Colors.primary[200],
+    borderColor: Colors.primary[300],
+
+    cursor: 'not-allowed',
+  }, //textarea disabled
+});
+
+const TextAreaSizeStyles: { [key in Size]: ReturnType<typeof css> } = {
+  large: css({
+    width: 660,
+    height: 280,
+  }),
+};
