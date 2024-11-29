@@ -7,65 +7,71 @@ import { forwardRef } from 'react';
 import { Colors } from '../../constants/colors';
 
 type ColorType = 'primary' | 'blue' | 'green' | 'yellow' | 'red';
-type Size = 'medium' | 'large';
-type Shape = 'circle' | 'round'; // TODO: circle 스타일
+type Size = 'md' | 'lg';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   colorType?: ColorType;
   size?: Size;
-  shape?: Shape;
   loading?: boolean;
   icon?: React.ReactNode;
 }
 
+const BUTTON_PREFIX = `${GLOBAL_PREFIX}-btn`;
+
 /**
- *?: css 파일은 컴포넌트 외부에 선언되는데, PREFIX가 붙은 class 선택자는 어떻게 가져올 수 있을까?
- * => 전역변수 생성 후, getter 함수 작성해야할 듯. setter는 config에서만 할 수 있도록?
- * => 이건 config 만들 때 같이 해야할 듯
+ * TODO: 로딩 아이콘 추가
  */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>((props, ref) => {
-  const {
-    colorType = 'primary',
-    size = 'medium',
-    shape = 'round',
-    disabled,
-    loading,
-    icon,
-    className,
-    children,
-    ...buttonProps
-  } = props;
-  const BUTTON_PREFIX = `${GLOBAL_PREFIX}-btn`;
+  const { colorType, size, loading, icon, className, children, ...buttonProps } = props;
   const generateButtonCls = generateClasses(BUTTON_PREFIX);
+
+  const buttonCls = generateButtonCls(
+    [
+      colorType,
+      size,
+      {
+        'icon-only': !!icon && !children,
+      },
+    ],
+    className,
+  );
 
   return (
     <button
       ref={ref}
-      className={generateButtonCls(
-        [colorType, shape === 'circle' ? 'circle' : '', loading ? 'loading' : ''],
-        className,
-      )}
-      css={css(ButtonDefaultStyles, ButtonColorTypeStyles[colorType], ButtonSizeStyles[size])}
-      disabled={disabled || loading}
+      className={`${BUTTON_PREFIX} ${buttonCls}`}
+      css={ButtonStyle}
+      onClick={(e) => {
+        // loading 동안 클릭 이벤트 발생 안하도록
+        if (loading) {
+          e.preventDefault();
+          return;
+        }
+
+        buttonProps.onClick?.(e);
+      }}
       {...buttonProps}>
-      {
-        loading && <span className={generateButtonCls(['icon', 'loading-icon'])}>loading icon</span> // TODO: loading icon 추가
-      }
+      {loading && <span className={generateButtonCls(['icon', 'loading-icon'])}>loading</span>}
       {!loading && icon && <span className={generateButtonCls(['icon'])}>{icon}</span>}
-      {!loading && <span className={generateButtonCls(['inner'])}>{children}</span>}
+      {!loading && children && <span className={generateButtonCls(['inner'])}>{children}</span>}
     </button>
   );
 });
 
 export default Button;
 
-const ButtonDefaultStyles = css({
+const DefaultStyle = css({
   padding: '14px 20px',
 
   display: 'inline-flex',
   justifyContent: 'center',
   alignItems: 'center',
   gap: 8,
+
+  height: 48,
+
+  backgroundColor: Colors.primary[800],
+  color: Colors.primary[100],
 
   border: 'none',
   borderRadius: 300,
@@ -75,6 +81,15 @@ const ButtonDefaultStyles = css({
   transitionTimingFunction: 'ease-in-out',
 
   cursor: 'pointer',
+
+  '&:hover': {
+    backgroundColor: Colors.primary[200],
+    color: Colors.primary[800],
+  },
+  '&:active': {
+    backgroundColor: Colors.primary[300],
+    color: Colors.primary[800],
+  },
 
   '&:disabled': {
     backgroundColor: Colors.primary[400],
@@ -92,20 +107,8 @@ const ButtonDefaultStyles = css({
   },
 });
 
-const ButtonColorTypeStyles: { [key in ColorType]: ReturnType<typeof css> } = {
-  primary: css({
-    backgroundColor: Colors.primary[800],
-    color: Colors.primary[100],
-    '&:hover': {
-      backgroundColor: Colors.primary[200],
-      color: Colors.primary[800],
-    },
-    '&:active': {
-      backgroundColor: Colors.primary[300],
-      color: Colors.primary[800],
-    },
-  }),
-  blue: css({
+const ColorTypeStyle = css({
+  [`&.${BUTTON_PREFIX}-blue`]: {
     backgroundColor: Colors.blue[500],
     color: Colors.primary[100],
     '&:hover': {
@@ -114,8 +117,8 @@ const ButtonColorTypeStyles: { [key in ColorType]: ReturnType<typeof css> } = {
     '&:active': {
       backgroundColor: Colors.blue[300],
     },
-  }),
-  green: css({
+  },
+  [`&.${BUTTON_PREFIX}-green`]: {
     backgroundColor: Colors.green[500],
     color: Colors.primary[100],
     '&:hover': {
@@ -124,8 +127,8 @@ const ButtonColorTypeStyles: { [key in ColorType]: ReturnType<typeof css> } = {
     '&:active': {
       backgroundColor: Colors.green[300],
     },
-  }),
-  yellow: css({
+  },
+  [`&.${BUTTON_PREFIX}-yellow`]: {
     backgroundColor: Colors.yellow[500],
     color: Colors.primary[100],
     '&:hover': {
@@ -134,8 +137,8 @@ const ButtonColorTypeStyles: { [key in ColorType]: ReturnType<typeof css> } = {
     '&:active': {
       backgroundColor: Colors.yellow[300],
     },
-  }),
-  red: css({
+  },
+  [`&.${BUTTON_PREFIX}-red`]: {
     backgroundColor: Colors.red[500],
     color: Colors.primary[100],
     '&:hover': {
@@ -144,17 +147,36 @@ const ButtonColorTypeStyles: { [key in ColorType]: ReturnType<typeof css> } = {
     '&:active': {
       backgroundColor: Colors.red[300],
     },
-  }),
-};
+  },
+});
 
-const ButtonSizeStyles: { [key in Size]: ReturnType<typeof css> } = {
-  large: css({
-    width: '100%',
-    height: 48,
-  }),
-  medium: css({
+const SizeStyle = css({
+  [`&.${BUTTON_PREFIX}:not(.${BUTTON_PREFIX}-icon-only)`]: {
     minWidth: 120,
-    maxWidth: 150,
-    height: 48,
-  }),
-};
+
+    [`&.${BUTTON_PREFIX}-lg`]: {
+      width: '100%',
+    },
+  },
+
+  [`&.${BUTTON_PREFIX}-icon-only`]: {
+    padding: 12,
+    width: 48,
+
+    span: {
+      display: 'inline-flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+
+      width: 24,
+      height: 24,
+    },
+
+    [`&.${BUTTON_PREFIX}-lg`]: {
+      padding: '12px 28px',
+      width: 80,
+    },
+  },
+});
+
+const ButtonStyle = css(DefaultStyle, ColorTypeStyle, SizeStyle);
