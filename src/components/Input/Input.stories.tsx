@@ -12,14 +12,24 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
+export const Text: Story = {
   args: {
     colorType: 'primary',
-    inputType: 'text',
+    type: 'text',
     size: 'small',
-    label: '',
-    helpText: '',
     status: 'default',
+    disabled: false,
+  },
+};
+
+export const Password: Story = {
+  args: {
+    colorType: 'primary',
+    type: 'password',
+    size: 'small',
+    status: 'success',
+    label: 'Password',
+    helpText: 'Enter characters more than 8',
     disabled: false,
   },
 };

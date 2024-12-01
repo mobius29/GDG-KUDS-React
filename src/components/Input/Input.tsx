@@ -8,14 +8,12 @@ import { forwardRef } from 'react';
 import { Colors } from '../../constants/colors';
 
 type ColorType = 'primary'; //colorType 별도 명시
-type InputType = 'text' | 'password'; //input 태그에 존재하나, 현재 text, password 외에는 추가된 것이 없어 그대로 가져가기로
 type Size = 'small' | 'medium';
 type Status = 'default' | 'success' | 'error';
 
 type InputAttribute = React.InputHTMLAttributes<HTMLInputElement>;
 export interface InputProps extends Omit<InputAttribute, 'size'> {
   colorType?: ColorType;
-  inputType?: InputType;
   size?: Size;
   label?: React.ReactNode;
   helpText?: React.ReactNode;
@@ -27,7 +25,7 @@ export interface InputProps extends Omit<InputAttribute, 'size'> {
 const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const {
     colorType,
-    inputType = 'text',
+    type,
     size = 'small',
     label,
     helpText,
@@ -40,7 +38,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const generateInputCls = generateClasses(INPUT_PREFIX);
 
   return (
-    <div css={ContainerStyles} className={generateInputCls([colorType, inputType, size], className)}>
+    <div css={ContainerStyles} className={generateInputCls([colorType, type, size], className)}>
       {label && (
         <label css={InputLabelStyles} className={generateInputCls([label])}>
           {label}
@@ -49,7 +47,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
       <div css={InputWrapperStyles}>
         <input
           ref={ref}
-          type={inputType}
+          type={type}
           css={[InputDefaultStyles, InputSizeStyles[size], InputStatusStyles[status]]}
           {...inputProps}
         />
