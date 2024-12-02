@@ -22,4 +22,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.ACCESS_TOKEN }}
-          publish_dir: storybook-static
+          publish_dir: ./storybook-static
