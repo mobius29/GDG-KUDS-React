@@ -16,31 +16,40 @@ export const classNames = (...values: unknown[]): string => {
     .join(' ');
 };
 
-const filterCls = (cls: unknown): boolean => {
-  if (!cls) return false; // filter falsey values
-  return true;
-};
+type AvailableClass =
+  | string
+  | number
+  | Array<AvailableClass>
+  | Record<string, boolean | undefined | null>
+  | undefined
+  | null
+  | false;
 
-const parseCls = (cls: unknown, prefix?: string): string => {
+const parseCls = (cls: AvailableClass, prefix?: string): string | undefined => {
   prefix = prefix ? `${prefix}-` : '';
+
+  if (!cls) return;
 
   if (typeof cls === 'string' || typeof cls === 'number') return `${prefix}${cls}`;
   if (Array.isArray(cls)) return cls.map((item) => parseCls(item, prefix)).join(' ');
 
-  // TODO: object가 들어오면?
-  return '';
+  if (typeof cls === 'object')
+    return Object.entries(cls)
+      .filter(([, value]) => !!value)
+      .map(([key]) => `${prefix}${key}`)
+      .join(' ');
 };
 
 export const generateClasses =
   (prefix?: string) =>
-  (suffixes: unknown[], ...cls: (string | undefined)[]) => {
+  (suffixes: AvailableClass[], ...cls: (string | undefined)[]) => {
     const mergedClasses = suffixes
-      .filter(filterCls)
       .map((suffix) => parseCls(suffix, prefix))
+      .filter((cls) => !!cls)
       .join(' ');
 
     if (cls) {
-      const classes = cls.filter(filterCls).join(' ');
+      const classes = cls.filter((cls) => !!cls).join(' ');
       return `${mergedClasses} ${classes}`;
     }
 
